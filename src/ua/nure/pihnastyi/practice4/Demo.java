@@ -24,15 +24,14 @@ public class Demo {
         // restore the standard input
         System.setIn(STD_IN);
 
-//        System.out.println("=========================== PART4");
-//        Part4.main(args);
-//
-//        System.out.println("=========================== PART5");
-//        // set the mock input
-//        System.setIn(new ByteArrayInputStream(
-//                "table ru^table en^apple ru^stop".replace("^", System.lineSeparator()).getBytes(ENCODING)));
-//        Part5.main(args);
-//        // restore the standard input
-//        System.setIn(STD_IN);
-    }
+        System.out.println("=========================== PART4");
+        Part4.main(args);
+
+        System.out.println("=========================== PART5");
+        // set the mock input
+        System.setIn(new ByteArrayInputStream("table ru\ntable en\napple ru".getBytes(ENCODING)));
+        Part5.main(args);
+        // restore the standard input
+        System.setIn(STD_IN);
+        }
 }

@@ -42,9 +42,9 @@ public class Part2 {
         writer.flush();
     }
 
-    public static void printFile(String nameFile){
+    public static void printFile(String nameFile) {
 
-        String input = Util.readFile(nameFile,"UTF-8");
+        String input = Util.readFile(nameFile, "UTF-8");
         System.out.println(input);
 
     }

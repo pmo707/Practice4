@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 public class Part1 {
 
     private static final String REGEX = "[A-zА-яёЁІіЇї]+";
+    private static final int WORD_MAX_LENGTH_LOWER_CASE = 3;
 
     public static void main(String[] args) {
 
@@ -18,9 +19,9 @@ public class Part1 {
         Matcher matcher = pat.matcher(input);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
-if (matcher.group().length()>3) {
-    matcher.appendReplacement(sb, matcher.group().toUpperCase());
-}
+            if (matcher.group().length() > WORD_MAX_LENGTH_LOWER_CASE) {
+                matcher.appendReplacement(sb, matcher.group().toUpperCase());
+            }
 
         }
         matcher.appendTail(sb);
