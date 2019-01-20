@@ -7,8 +7,6 @@ import java.io.OutputStreamWriter;
 
 
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Part2 {
     private static final String FILE_ENCODING = "UTF-8";
@@ -18,39 +16,37 @@ public class Part2 {
     private static final String INPUT_TITLE = "input ==> ";
     private static final String OUTPUT_TITLE = "output ==> ";
 
-    public static final int NUMBERS_COUNT = 10;
-    public static final int MAX_NUMBER_VALUE = 50;
-
-    private static int[] numbersArray;
+    private static final int NUMBERS_COUNT = 10;
+    private static final int MAX_NUMBER_VALUE = 50;
 
     public static void main(String[] args) throws IOException {
-        numbersArray = getRandomNumbersArray(NUMBERS_COUNT, MAX_NUMBER_VALUE);
-        
-        writeFile(NUMBERS_FILE_NAME, getFormattedNumbersString(numbersArray));
+        int[] numbersArray = getRandomNumbersArray(NUMBERS_COUNT, MAX_NUMBER_VALUE);
+
+        writeFile(NUMBERS_FILE_NAME, convertNumbersToString(numbersArray));
         printFile(NUMBERS_FILE_NAME, INPUT_TITLE);
-        
+
         bubbleSort(numbersArray);
-        
+
         writeFile(SORTED_NUMBERS_FILE_NAME,
-                  getFormattedNumbersString(numbersArray));
+                convertNumbersToString(numbersArray));
         printFile(SORTED_NUMBERS_FILE_NAME, OUTPUT_TITLE);
     }
 
-    private static getRandomNumbersArray(int count, int maxValue) {
+    private static int[] getRandomNumbersArray(int count, int maxValue) {
         int[] numbers = new int[count];
         Random random = new Random();
 
-        for (int i = 0; i < NUMBERS_COUNT; i++) {
+        for (int i = 0; i < count; i++) {
             numbers[i] = random.nextInt(maxValue);
         }
 
         return numbers;
     }
 
-    private static String getFormattedNumbersString(int[] numbers) {
+    private static String convertNumbersToString(int[] numbers) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < numbers.length; i++) {
-            sb.append(numbers[i]).append(" ");
+        for (int number : numbers) {
+            sb.append(number).append(" ");
         }
 
         return sb.toString().trim();
@@ -61,11 +57,14 @@ public class Part2 {
                 new FileOutputStream(fileName), FILE_ENCODING)) {
             writer.write(input);
             writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void printFile(String fileName) {
+    static void printFile(String fileName, String title) {
         String input = Util.readFile(fileName, FILE_ENCODING);
-        System.out.print(INPUT_TITLE);
+        System.out.print(title);
         System.out.println(input);
     }
 

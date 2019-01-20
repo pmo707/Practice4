@@ -14,7 +14,7 @@ public class Part1 {
         System.out.println(convertMatchedWordsToUpperCase(input));
     }
 
-    private static String convertMatchedWordsToUpperCase(String input) {
+    static String convertMatchedWordsToUpperCase(String input) {
         Pattern pattern = Pattern.compile(SINGLE_WORD_REGEX);
         Matcher matcher = pattern.matcher(input);
         StringBuffer sb = new StringBuffer();

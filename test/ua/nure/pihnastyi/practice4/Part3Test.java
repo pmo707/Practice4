@@ -7,10 +7,12 @@ import java.io.IOException;
 
 public class Part3Test {
     private static final String ENCODING = "UTF-8";
+
     @Test
-    public void testConstructor(){
+    public void testConstructor() {
         new Part3();
     }
+
     @Test
     public void testMain() throws IOException {
         System.setIn(new ByteArrayInputStream(

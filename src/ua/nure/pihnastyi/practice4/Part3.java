@@ -8,12 +8,11 @@ public class Part3 {
     private static final String FILE_NAME = "part3.txt";
     private static final String FILE_ENCODING = "Cp1251";
     private static final String SYSTEM_ENCODING = "UTF-8";
-
-    public static final String SEPARATOR_REGEX = "\\S+";
-    public static final String CHARACTER_REGEX = "^\\S$";
-    public static final String STRING_REGEX = "[A-zА-я]{2,}";
-    public static final String INTEGER_REGEX = "^(-|)?\\d+$";
-    public static final String DOUBLE_REGEX = "^(((-|)?\\d+\\.(\\d+|))|((-|)?\\.\\d+))$";
+    private static final String SEPARATOR_REGEX = "\\S+";
+    private static final String CHARACTER_REGEX = "^\\S$";
+    private static final String STRING_REGEX = "[A-zА-я]{2,}";
+    private static final String INTEGER_REGEX = "^(-|)?\\d+$";
+    private static final String DOUBLE_REGEX = "^(((-|)?\\d+\\.(\\d+|))|((-|)?\\.\\d+))$";
 
     public static void main(String[] args) {
         String input = Util.readFile(FILE_NAME, FILE_ENCODING);
@@ -22,14 +21,14 @@ public class Part3 {
         String regexType;
         String entriesString;
         while (in.hasNextLine()) {
-            regexType = getRegexType(in.nextLine())
+            regexType = getRegexType(in.nextLine());
             entriesString = getEntriesStringByRegexType(input, regexType);
             System.out.println(entriesString);
         }
     }
 
     private static String getRegexType(String type) {
-        String regexType = "";
+        String regexType;
         switch (type) {
             case "char":
                 regexType = CHARACTER_REGEX;
@@ -51,7 +50,7 @@ public class Part3 {
         return regexType;
     }
     
-    private static void getEntriesStringByRegexType(String input, 
+    private static String getEntriesStringByRegexType(String input,
             String regexType) {
         Pattern pattern = Pattern.compile(SEPARATOR_REGEX);
         Matcher matcher = pattern.matcher(input);
