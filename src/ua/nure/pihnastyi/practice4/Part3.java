@@ -21,16 +21,23 @@ public class Part3 {
     }
 
     public static String getType(String consoleIn, String input) {
-        String isType="";
-        if ("char".equals(consoleIn)) {
-            isType = REGEX_CHAR;
-        } else if ("String".equals(consoleIn)) {
-            isType = REGEX_STRING;
-        } else if ("int".equals(consoleIn)) {
-            isType = REGEX_INT;
-        } else if ("double".equals(consoleIn)) {
-            isType = REGEX_DOUBLE;
-
+        String isType;
+        switch (consoleIn) {
+            case "char":
+                isType = REGEX_CHAR;
+                break;
+            case "String":
+                isType = REGEX_STRING;
+                break;
+            case "double":
+                isType = REGEX_DOUBLE;
+                break;
+            case "int":
+                isType = REGEX_INT;
+                break;
+            default:
+                isType = "";
+                break;
         }
 
         Pattern pattern = Pattern.compile(SEPARATOR);

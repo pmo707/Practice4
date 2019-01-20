@@ -1,7 +1,8 @@
 package ua.nure.pihnastyi.practice4;
 
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.security.SecureRandom;
 
 import java.util.Random;
@@ -14,43 +15,47 @@ public class Part2 {
     private static final String FILE2 = "part2_sorted.txt";
     public static final int COUNT = 10;
     public static final String REGEX_EX = "[\\d]+";
+    private static final int RANGE_RANDOM = 50;
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        writeToFile();
-        String input = Util.readFile("part2.txt", ENCODING);
-        sortElements(input);
+        try {
+            writeToFile();
+            String input = Util.readFile(FILE1, ENCODING);
+            sortElements(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.print("input ==> ");
-        printFile("part2.txt");
+        printFile(FILE1);
         System.out.print("output ==> ");
-        printFile("part2_sorted.txt");
-
-
+        printFile(FILE2);
     }
 
     public static void writeToFile() throws IOException {
         int[] arrayNumber = new int[COUNT];
-        FileWriter writer = new FileWriter(FILE1, false);
-        StringBuilder sb = new StringBuilder();
-        Random random = new SecureRandom();
-        for (int i = 0; i < COUNT; i++) {
-            arrayNumber[i] = random.nextInt(50);
-            sb.append(arrayNumber[i]).append(" ");
+        try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(FILE1), ENCODING)) {
+            StringBuilder sb = new StringBuilder();
+            Random random = new SecureRandom();
+            for (int i = 0; i < COUNT; i++) {
+                arrayNumber[i] = random.nextInt(RANGE_RANDOM);
+                sb.append(arrayNumber[i]).append(" ");
+            }
+            writer.write(sb.toString().trim());
+            writer.flush();
         }
-        writer.write(sb.toString().trim());
-        writer.flush();
+
     }
 
     public static void printFile(String nameFile) {
 
-        String input = Util.readFile(nameFile, "UTF-8");
+        String input = Util.readFile(nameFile, ENCODING);
         System.out.println(input);
 
     }
 
     public static void sortElements(String input) throws IOException {
-        FileWriter writer = new FileWriter(FILE2, false);
         int[] arrayNumber = new int[COUNT];
         StringBuilder sb = new StringBuilder();
         Pattern pattern = Pattern.compile(REGEX_EX);
@@ -62,18 +67,23 @@ public class Part2 {
             indexArray++;
         }
         int temporary;
-        for (int i = 0; i < arrayNumber.length; i++)
-            for (int j = 0; j < arrayNumber.length - i - 1; j++)
+        for (int i = 0; i < arrayNumber.length; i++) {
+            for (int j = 0; j < arrayNumber.length - i - 1; j++) {
                 if (arrayNumber[j] > arrayNumber[j + 1]) {
                     temporary = arrayNumber[j];
                     arrayNumber[j] = arrayNumber[j + 1];
                     arrayNumber[j + 1] = temporary;
                 }
+            }
+        }
         for (int i = 0; i < COUNT; i++) {
             sb.append(arrayNumber[i]).append(" ");
         }
-        writer.write(sb.toString().trim());
-        writer.flush();
+        try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(FILE2), ENCODING)) {
+            writer.write(sb.toString().trim());
+            writer.flush();
+
+        }
 
     }
 
