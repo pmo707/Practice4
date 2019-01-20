@@ -2,79 +2,79 @@ package ua.nure.pihnastyi.practice4;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.SecureRandom;
 
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Part2 {
-    private static final String ENCODING = "UTF-8";
-    private static final String FILE1 = "part2.txt";
-    private static final String FILE2 = "part2_sorted.txt";
-    public static final int COUNT = 10;
-    public static final String REGEX_EX = "[\\d]+";
+    private static final String FILE_ENCODING = "UTF-8";
+    private static final String NUMBERS_FILE_NAME = "part2.txt";
+    private static final String SORTED_NUMBERS_FILE_NAME = "part2_sorted.txt";
 
+    private static final String INPUT_TITLE = "input ==> ";
+    private static final String OUTPUT_TITLE = "output ==> ";
+
+    public static final int NUMBERS_COUNT = 10;
+    public static final int MAX_NUMBER_VALUE = 50;
+
+    private static int[] numbersArray;
 
     public static void main(String[] args) throws IOException {
-
-        writeToFile();
-        String input = Util.readFile("part2.txt", ENCODING);
-        sortElements(input);
-        System.out.print("input ==> ");
-        printFile("part2.txt");
-        System.out.print("output ==> ");
-        printFile("part2_sorted.txt");
-
-
+        numbersArray = getRandomNumbersArray(NUMBERS_COUNT, MAX_NUMBER_VALUE);
+        
+        writeFile(NUMBERS_FILE_NAME, getFormattedNumbersString(numbersArray));
+        printFile(NUMBERS_FILE_NAME, INPUT_TITLE);
+        
+        bubbleSort(numbersArray);
+        
+        writeFile(SORTED_NUMBERS_FILE_NAME,
+                  getFormattedNumbersString(numbersArray));
+        printFile(SORTED_NUMBERS_FILE_NAME, OUTPUT_TITLE);
     }
 
-    public static void writeToFile() throws IOException {
-        int[] arrayNumber = new int[COUNT];
-        FileWriter writer = new FileWriter(FILE1, false);
-        StringBuilder sb = new StringBuilder();
-        Random random = new SecureRandom();
-        for (int i = 0; i < COUNT; i++) {
-            arrayNumber[i] = random.nextInt(50);
-            sb.append(arrayNumber[i]).append(" ");
+    private static getRandomNumbersArray(int count, int maxValue) {
+        int[] numbers = new int[count];
+        Random random = new Random();
+
+        for (int i = 0; i < NUMBERS_COUNT; i++) {
+            numbers[i] = random.nextInt(maxValue);
         }
-        writer.write(sb.toString().trim());
+
+        return numbers;
+    }
+
+    private static String getFormattedNumbersString(int[] numbers) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numbers.length; i++) {
+            sb.append(numbers[i]).append(" ");
+        }
+
+        return sb.toString().trim();
+    }
+
+    private static void writeFile(String fileName, String input) {
+        FileWriter writer = new FileWriter(fileName, false);
+        writer.write(input);
         writer.flush();
     }
 
-    public static void printFile(String nameFile) {
-
-        String input = Util.readFile(nameFile, "UTF-8");
+    private static void printFile(String fileName) {
+        String input = Util.readFile(fileName, FILE_ENCODING);
+        System.out.print(INPUT_TITLE);
         System.out.println(input);
-
     }
 
-    public static void sortElements(String input) throws IOException {
-        FileWriter writer = new FileWriter(FILE2, false);
-        int[] arrayNumber = new int[COUNT];
-        StringBuilder sb = new StringBuilder();
-        Pattern pattern = Pattern.compile(REGEX_EX);
-        Matcher matcher = pattern.matcher(input);
-        int indexArray = 0;
-
-        while (matcher.find()) {
-            arrayNumber[indexArray] = Integer.parseInt(matcher.group());
-            indexArray++;
-        }
-        int temporary;
-        for (int i = 0; i < arrayNumber.length; i++)
-            for (int j = 0; j < arrayNumber.length - i - 1; j++)
-                if (arrayNumber[j] > arrayNumber[j + 1]) {
-                    temporary = arrayNumber[j];
-                    arrayNumber[j] = arrayNumber[j + 1];
-                    arrayNumber[j + 1] = temporary;
+    private static void bubbleSort(int[] array) {
+        int temp;
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array.length - i - 1; j++) {
+                if (array[j] > array[j + 1]) {
+                    temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
                 }
-        for (int i = 0; i < COUNT; i++) {
-            sb.append(arrayNumber[i]).append(" ");
+            }
         }
-        writer.write(sb.toString().trim());
-        writer.flush();
-
     }
-
 }
