@@ -1,7 +1,10 @@
 package ua.nure.pihnastyi.practice4;
 
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+
+import java.io.OutputStreamWriter;
+
 
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -54,9 +57,10 @@ public class Part2 {
     }
 
     private static void writeFile(String fileName, String input) {
-        FileWriter writer = new FileWriter(fileName, false);
-        writer.write(input);
-        writer.flush();
+        try (OutputStreamWriter writer = new OutputStreamWriter(
+                new FileOutputStream(fileName), FILE_ENCODING)) {
+            writer.write(input);
+            writer.flush();
     }
 
     private static void printFile(String fileName) {
